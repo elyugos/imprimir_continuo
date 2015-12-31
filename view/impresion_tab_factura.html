@@ -1,0 +1,111 @@
+{include="header2"}
+
+{if="$fsc->factura"}
+<script type="text/javascript" src="{$fsc->get_js_location('provincias.js')}"></script>
+<script type="text/javascript">
+   function check_enviar_copia()
+   {
+      if($("#copia").is(":checked"))
+      {
+         $("#checked_copia").prop("disabled",false);
+      }
+      else
+      {
+         $("#checked_copia").prop("disabled",true);
+      }
+   }
+   $(document).ready(function() {
+      $("#b_imprimir").click(function(event) {
+         event.preventDefault();
+         $("#modal_imprimir").modal('show');
+      });
+      $("#b_enviar").click(function(event) {
+         event.preventDefault();
+         $("#modal_enviar").modal('show');
+         document.enviar_email.email.focus();
+      });
+      $("#b_eliminar").click(function(event) {
+         event.preventDefault();
+         $("#modal_eliminar").modal('show');
+      });
+      {if="$fsc->factura->totalrecargo==0"}
+      $(".recargo").hide();
+      {/if}
+      {if="$fsc->factura->totalirpf==0"}
+      $(".irpf").hide();
+      {/if}
+   });
+</script>
+<div class="hidden-print">
+<a class="btn btn-sm btn-default" onclick="window.print();">
+                  <span class="glyphicon glyphicon-print"></span> &nbsp; Imprimir continuo
+               </a></div>
+
+			   
+			   
+			   <div class="visible-print-block">
+    <table class="table" height="52"><tr>
+            <td style="border-top: none;">
+                        
+            </td>
+        </tr>
+            
+    </table>
+    
+    <br/>  
+            
+    <div class="col-xs-12">
+        <a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$fsc->modelonumero->traducefecha($fsc->factura->fecha)}</a></div>
+	<div class="col-xs-7">
+        <a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$fsc->factura->nombrecliente}</a><br></div>
+		<div class="col-xs-5" align="right">
+            <a>{$fsc->factura->cifnif}</a>
+    </div><div class="col-xs-10">
+	<a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$fsc->factura->direccion}</a>
+    </div>
+	
+	        
+        <table class="table" height="295">
+            <tr> <td style="border-top: none;">
+                  
+                {loop="$fsc->factura->get_lineas()"}
+                <div class="col-xs-12" >       
+                <div class="col-xs-2" >{$value->cantidad}</div>
+                     <div class="col-xs-6" >{$value->referencia}  ... {$value->descripcion}</div>
+                     <div class="col-xs-2"  align="right" >{$fsc->show_precio($value->pvpunitario, $fsc->factura->coddivisa)}</div>
+                     <div class="col-xs-2"  align="right" >{$fsc->show_precio($value->total_iva(), $fsc->factura->coddivisa)}</div>
+                 </div>
+                     {/loop}
+       
+      
+                </td></tr>
+        </table>
+        <br>
+        
+        
+                         <div class="col-xs-12" >
+                         <div class="col-xs-2"></div>
+                         <div class="col-xs-8">&nbsp;&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$fsc->modelonumero->traducefecha($fsc->factura->fecha)}</div>
+                     <div class="col-xs-2"  align="right"><b>{$fsc->show_precio($fsc->factura->neto, $fsc->factura->coddivisa)}</b></div>
+                         </div>
+                 <div class="col-xs-12" >
+				 
+                     <div class="col-xs-10"></div>
+                     <div class="col-xs-2"  align="right"><b>{$fsc->show_precio($fsc->factura->totaliva, $fsc->factura->coddivisa)}</b></div>
+                  
+                 </div>
+                    <div class="col-xs-12" >
+                    <div class="col-xs-8">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$fsc->modelonumero->numtoletras($fsc->factura->total)} {$fsc->modelonumero->descripcion_divisa($fsc->factura->coddivisa)}</div>
+                    <div class="col-xs-4"  align="right"><b>{$fsc->show_precio($fsc->factura->total, $fsc->factura->coddivisa)}</b>
+                    </div></div>
+               
+     
+</div>
+{else}
+<div class="thumbnail">
+   <img src="view/img/fuuu_face.png" alt="fuuuuu"/>
+</div>
+{/if}
+
+{include="footer2"}
+
