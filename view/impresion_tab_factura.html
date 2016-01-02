@@ -1,56 +1,19 @@
 {include="header2"}
 
 {if="$fsc->factura"}
-<script type="text/javascript" src="{$fsc->get_js_location('provincias.js')}"></script>
 <script type="text/javascript">
-   function check_enviar_copia()
-   {
-      if($("#copia").is(":checked"))
-      {
-         $("#checked_copia").prop("disabled",false);
-      }
-      else
-      {
-         $("#checked_copia").prop("disabled",true);
-      }
-   }
    $(document).ready(function() {
-      $("#b_imprimir").click(function(event) {
-         event.preventDefault();
-         $("#modal_imprimir").modal('show');
-      });
-      $("#b_enviar").click(function(event) {
-         event.preventDefault();
-         $("#modal_enviar").modal('show');
-         document.enviar_email.email.focus();
-      });
-      $("#b_eliminar").click(function(event) {
-         event.preventDefault();
-         $("#modal_eliminar").modal('show');
-      });
-      {if="$fsc->factura->totalrecargo==0"}
-      $(".recargo").hide();
-      {/if}
-      {if="$fsc->factura->totalirpf==0"}
-      $(".irpf").hide();
-      {/if}
+      window.print();
+      setTimeout(function () { window.close(); }, 100);
    });
 </script>
-<div class="hidden-print">
-<a class="btn btn-sm btn-default" onclick="window.print();">
-                  <span class="glyphicon glyphicon-print"></span> &nbsp; Imprimir continuo
-               </a></div>
 
-			   
-			   
-			   <div class="visible-print-block">
-    <table class="table" height="52"><tr>
-            <td style="border-top: none;">
-                        
-            </td>
-        </tr>
-            
-    </table>
+<div class="visible-print-block">
+   <table class="table" height="52">
+      <tr>
+         <td style="border-top: none;"></td>
+      </tr>
+   </table>
     
     <br/>  
             
@@ -108,4 +71,3 @@
 {/if}
 
 {include="footer2"}
-
